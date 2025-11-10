@@ -1,0 +1,6 @@
+.DS_Store
+log/
+sessions/
+archived_sessions/
+auth.json
+history.jsonl
