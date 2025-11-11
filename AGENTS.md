@@ -6,17 +6,21 @@ You are effectively the entire IC team for Ian Watts, the person commanding you.
 
 ### Self-Improving Framework
 
-Since you are the entire IC team, it is essential to be a self-improving system. Any time a new best practice is established, you must propose updates to the global `~/.codex/AGENTS.md` or project `~/code_projects/<project>/AGENTS.md` files as follows.
-```
---- 📖 ---
+Since you are the entire IC team, it is essential to be a self-improving system. Any time a new best practice is established, you must propose updates to the global `~/.codex/AGENTS.md` or project `~/code_projects/<project>/AGENTS.md` files as seen below, and then apply it as seen in the given `AGENTS.md` file.
+
+```markdown
+--- 📖 PROPOSED RULE 📖 ---
 <GLOBAL | PROJECT>
-<rule change>
---- 📖 ---
+- <rule change>
+- ...
+
+<GLOBAL | PROJECT>
+- <rule change>
 ```
 
 ### Evidence-Based Best-Practices
 
-I want to build 
+Our code should follow cutting edge best-practices, deeply consulting docs to properly leverage all our tools have to offer. Use the **Context7 MCP** server to get docs for any and all libraries, APIs, etc. Use the **Context7 MCP** server to get docs for any and all libraries, APIs, etc.. Look out for recent updates so we're using the latest and greatest, avoiding old paradigms in favor of newer, cleaner ones.
 
 ### Coordination
 
@@ -83,7 +87,6 @@ This stack is deliberate. Extensively leverage the tools' affordances and power.
 - **OpenAI AgentKit** for agentic workflows (with WISYWIG) and ChatGPT/ChatKit integration
   - **OpenAI Agents JS SDK** [`@openai/agents`] for all LLM processing and agentic logic
     - *REMEMBER*: use `@openai/agents`, NOT `openai`
-  - ****
   - **Models**: `gpt-5` family for text/vision, `gpt-4o-transcribe` for transcription, `gpt-image-1` for image generation
   - **Zod** for ***SSOT*** objects/args definition for Agent `tools`; OpenAI doesn't accept `.optional()`, use `.nullable()` instead
 - **Convex** for database and file storage
@@ -101,6 +104,7 @@ It's especially important for frontend that we maintain DRY, SSOT principles.
 - avoid inline Tailwind `className`s at all cost
 
 #### Stack
+
 - **21st.dev** for community-built component library
 - **Shadcn** for base `/components` library
   - always check the default library via docs/MCP
@@ -229,6 +233,22 @@ I've provided some commands, but use `--help` to fully explore.
 - Documentation in `.docs/Convex` directory
   - Best practices overview in `docs/Convex/convex_rules.md`
 
+### Server Helpers
+
+- Validation: use `convex-helpers/server/zod` (`zCustomQuery`, `zCustomMutation`) for Zod-first arg schemas; prefer `zid('<table>')` for typed Ids.
+- Joins/feeds: compose cross-table reads with `convex-helpers/server/stream`; add necessary indexes up-front to avoid N+1.
+- HTTP/CORS: prefer `convex-helpers/server/cors` (`corsRouter`) for cross-origin HTTP; use Hono (`server/hono`) only for prototypes (RLS caveat).
+- CRUD: avoid `convex-helpers/server/crud` in production without RLS; prefer explicit functions with row-level checks.
+
+### Client Integration
+
+- Cache: wrap client with `ConvexClientProvider` + `ConvexQueryCacheProvider`.
+  - Import from `convex-helpers/react/cache` (Next.js: `convex-helpers/react/cache/provider`).
+  - Defaults: ~5m TTL, ~250 idle entries; tune per app.
+- Statusful queries: use `makeUseQueryWithStatus` for `{status,data,error}` semantics.
+- Hooks: prefer `convex-helpers/react/cache` hooks as drop-in replacements for `useQuery`/`useQueries`/`usePaginatedQuery`.
+- Anonymous sessions: for logged‑out personalization use `convex-helpers/react/sessions` + `queryWithSession`; treat as ephemeral, pair with Clerk on login, avoid PII.
+
 ---
 
 ## CLI: Running Functions
@@ -260,20 +280,21 @@ Why the explicit `{"cursor":null}`? The migrations runner defaults to a dry-run 
 
 ## Pagination & Bulk Reads
 
-- One `.paginate()` per function. Reuse the cursor or split into helpers.
-- For client-facing queries, apply filters before `.paginate(...)` and return the paginate result directly.
-- Details: `docs/Convex/convex_rules.md` → Pagination.
+- Default: use Convex’s built-in `.paginate(...)` for simple, single-pagination queries.
+- Multiple paginations: use `convex-helpers/server/pagination`’s `paginator` to support >1 pagination per function; manage cursors explicitly for reactive updates.
+- Classic page/back/forward UX: use `getPage` with `startIndexKey`/`endIndexKey` (and `targetMaxRows`) on an indexed query for stable windows.
+- Apply filters before paginate and return the paginate result directly for client-facing queries.
 
 ---
 
 ## Rules
 
-- Use ISO strings for dates
-- DO NOT add `createdAt` fields (`_creationTime` is already automatically tracked)
+- use ISO strings for dates
+- NEVER add `createdAt` or `id` fields (`id` & `_creationTime` are automatically tracked)
 
 </convex_instructions>
 
-<react_effects_guidelines>
+<react_instructions>
 
 ## You Might Not Need an Effect
 
@@ -281,4 +302,10 @@ Why the explicit `{"cursor":null}`? The migrations runner defaults to a dry-run 
 
 Most “I think I need an Effect” cases are better solved by: computing values during render (sometimes memoized), handling work in **event handlers**, lifting state, or resetting state with a `key`. Use Effects for external sync—and keep them tight with proper cleanup to avoid bugs like race conditions.
 
-<react_effects_guidelines>
+<react_instructions>
+
+<next_instructions>
+
+
+
+</next_instructions>
