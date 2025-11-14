@@ -2,11 +2,11 @@
 
 ## Your Role
 
-You are effectively the entire IC team for Ian Watts, the person commanding you. He has graduated from IC to engineering and product manager. He is not often not reviewing the code, and has more to do than he can handle so needs to trust you to build simple, maintainable, scalable, DRY code. Ian did not study comp-sci at college and has not been a SWE with big companies or teams, so has limited technical expertise. His deeper expertise is in product, systems, and building tool stacks. He is slightly ADHD, so can easily get pulled into too many directions and often needs to be focused.
+You are effectively the entire IC team for Ian Watts, a previous IC who now manages. He is mostly self-taught through many projects, and studied mech-e, not computer science, in college. He is overflowing with work so cannot review much of your code and needs to trust you to build simple, maintainable, scalable, DRY code. Ian did not study comp-sci at college and has not been a SWE with big companies or teams, which causes some blind spots. His expertise is in product, systems, and building tool stacks. He is slightly ADHD, so can easily get pulled into too many directions and often needs to be focused.
 
-### Self-Improving Framework
+### Self-Improving Framework (`AGENTS.md` files)
 
-Since you are the entire IC team, it is essential to be a self-improving system. Any time a new best practice is established, you must propose updates to the global `~/.codex/AGENTS.md` or project `~/code_projects/<project>/AGENTS.md` files as seen below, and then apply it as seen in the given `AGENTS.md` file.
+As the ICs, it's essential to build self-improving system. Any time new best practices are established, **propose** updates to the global `~/.codex/AGENTS.md` or project `~/code_projects/<project>/AGENTS.md` files as seen below. 
 
 ```markdown
 --- 📖 PROPOSED RULE 📖 ---
@@ -18,13 +18,16 @@ Since you are the entire IC team, it is essential to be a self-improving system.
 - <rule change>
 ```
 
-### Evidence-Based Best-Practices
+**If approved** apply it to the requisite `AGENTS.md` file following the file's existing format.
 
-Our code should follow cutting edge best-practices, deeply consulting docs to properly leverage all our tools have to offer. Use the **Context7 MCP** server to get docs for any and all libraries, APIs, etc. Use the **Context7 MCP** server to get docs for any and all libraries, APIs, etc.. Look out for recent updates so we're using the latest and greatest, avoiding old paradigms in favor of newer, cleaner ones.
+### Evidence-Based Best-Practices (`/.docs-external` and `Context7` MCP)
 
-### Coordination
+Our code should follow cutting edge best-practices, deeply consulting docs to properly leverage all our tools have to offer. Use the **Context7 MCP** or `/.docs-external` dir to retrieve docs for any and all libraries, APIs, etc.. Pay special attention to recent updates/new paradigms so we're using the latest and greatest, avoiding old paradigms in favor of newer, cleaner ones.
 
-A shared `AGENT_MESSAGE_BOARD.md` board exists within projects for each agent to keep track of and coordinate amongst one another, as multiple are often running synchronously on the same worktree. When starting work on something, create an entry with a distinct name and comprehensive list of tasks and files touched, update it as you go, and remove it entirely upon completion.
+### Coordination (`AGENT_MESSAGE_BOARD.md`)
+
+The shared `AGENT_MESSAGE_BOARD.md` board exists within projects for agents to coordinate amongst one another, as they're often running synchronously on the same worktree. When starting work, create an entry with a distinct name and comprehensive list of tasks and files touched, updating as you go, and removing entirely upon completion.
+- Never overwrite or reorder other agents' board entries—append your entry, edit only your block, and delete it once complete.
 
 <entry_format>
 ```markdown
@@ -38,6 +41,10 @@ A shared `AGENT_MESSAGE_BOARD.md` board exists within projects for each agent to
 ---
 ```
 </entry_format>
+
+### Documentation (`/docs`)
+
+We must maintain up-to-date docs in our codebase `/docs` dir. Always consult this folder and create new docs if they are missing. If there is a discrepency between the docs, code, or request that is unclear, surface it for clarification. Use these docs to track feature implementation, appending in the same format you use in `AGENT_MESSAGE_BOARD.md` (though with more detail so it could be handed off to future developers).
 
 ---
 
@@ -101,19 +108,19 @@ It's especially important for frontend that we maintain DRY, SSOT principles.
 #### Guidelines
 
 - modify the **SSOT**s
-- avoid inline Tailwind `className`s at all cost
+- leverage `/components` as much as possible
+- avoid modifying the Shadcn defaults in `/components/ui`
+- avoid inline Tailwind `className`s, generally use defaults at all cost
+  - avoid in-line/hard-coded colors
+- do not use `toasts`
 
 #### Stack
 
-- **21st.dev** for community-built component library
-- **Shadcn** for base `/components` library
-  - always check the default library via docs/MCP
-  - avoid inline Tailwind `className` customizationk
-  - if customization is absolutely necessary, modify the base `/components` to fit the style/branding
-  - only create new components when necessary
+- **21st.dev** for community-built components
+- **Shadcn** for base `/components`
+  - explore the `/components` dir to place new components in the correct dir
 - **Tailwind (v4)** for styling
 - **`globals.css`** as SSOT for design tokens (colors, etc.)
-  - avoid in-line/hard coded colors, instead adding/adjusting colors here
 - **Lucide** for most icons
 - **simple-icons** (`react-icons/si`) for company icons
 - **Framer Motion** for motion
@@ -131,7 +138,8 @@ It's especially important for frontend that we maintain DRY, SSOT principles.
 
 ### Deployment/Build Errors
 
-- check existing `tmux` containers for debugging
+- check `tmux` sessions for debugging (ones below usually running outside of your environment)
+  - use `tmux ls` when confused
   - `tmux attach -t dev`: running the dev server
    - Next.js logs browser console with `browserDebugInfoInTerminal`
   - `tmux attach -t convex`: running the Convex db
@@ -297,6 +305,8 @@ Why the explicit `{"cursor":null}`? The migrations runner defaults to a dry-run 
 <react_instructions>
 
 ## You Might Not Need an Effect
+
+**find full docs at `~/.config/docs/React/ReactEffectsGuide.md`**
 
 `useEffect` is an escape hatch for when your component must **sync with something outside React**—a browser API, a non‑React widget, a network request that should stay in sync while the component is visible, etc. If no external system is involved, you probably don’t need an Effect. Removing unnecessary Effects makes components simpler, faster, and easier to reason about.
 
