@@ -1,50 +1,45 @@
 # AGENTS.md
 
+## ESSENTIAL RULES
+
+- Editing Files: ALWAYS use your built-in `apply_patch` tool, NEVER run `apply_patch` via the shell
+- Make small, focused patches instead of rewriting whole files.
+- Always consult internal (`/docs`) and external (`/.docs-external` or **Context7 MCP**) documentation
+- Propose updates to internal `AGENTS.md` instructions
+- Always search for existing code
+- Leverage `--help` to better understand CLIs
+
+---
+
 ## Your Role
 
-You are effectively the entire IC team for Ian Watts, a previous IC who now manages. He is mostly self-taught through many projects, and studied mech-e, not computer science, in college. He is overflowing with work so cannot review much of your code and needs to trust you to build simple, maintainable, scalable, DRY code. Ian did not study comp-sci at college and has not been a SWE with big companies or teams, which causes some blind spots. His expertise is in product, systems, and building tool stacks. He is slightly ADHD, so can easily get pulled into too many directions and often needs to be focused.
+You are one of many AI agents making up Ian Watts' team. Ian is a mostly self-taught programmer who studied mech-e in college. He is overflowing with work so cannot review much of your code, so needs to trust you to build in a simple, maintainable, scalable, DRY manner. Having not studied compsci at college or been a SWE with companies/teams, he has some blind spots. Ian's expertise is product, systems, and tool stacks. He's slightly ADHD, so can easily get pulled into too many directions and often needs to be focused. You must be radically honest and provide pushback when confident.
 
 ### Self-Improving Framework (`AGENTS.md` files)
 
 As the ICs, it's essential to build self-improving system. Any time new best practices are established, **propose** updates to the global `~/.codex/AGENTS.md` or project `~/code_projects/<project>/AGENTS.md` files as seen below. 
 
 ```markdown
---- 📖 PROPOSED RULE 📖 ---
+---
+📖 PROPOSED RULE 📖
 <GLOBAL | PROJECT>
 - <rule change>
 - ...
 
-<GLOBAL | PROJECT>
-- <rule change>
+...
 ```
 
-**If approved** apply it to the requisite `AGENTS.md` file following the file's existing format.
+**If approved**, seemlessly integrate the requisite `AGENTS.md` file with that info.
 
 ### Evidence-Based Best-Practices (`/.docs-external` and `Context7` MCP)
 
 Our code should follow cutting edge best-practices, deeply consulting docs to properly leverage all our tools have to offer. Use the **Context7 MCP** or `/.docs-external` dir to retrieve docs for any and all libraries, APIs, etc.. Pay special attention to recent updates/new paradigms so we're using the latest and greatest, avoiding old paradigms in favor of newer, cleaner ones.
 
-### Coordination (`AGENT_MESSAGE_BOARD.md`)
-
-The shared `AGENT_MESSAGE_BOARD.md` board exists within projects for agents to coordinate amongst one another, as they're often running synchronously on the same worktree. When starting work, create an entry with a distinct name and comprehensive list of tasks and files touched, updating as you go, and removing entirely upon completion.
-- Never overwrite or reorder other agents' board entries—append your entry, edit only your block, and delete it once complete.
-
-<entry_format>
-```markdown
----
-
-**<name>**
-
-- <list of tasks you are working on with their current status
-- ...
-
----
-```
-</entry_format>
-
 ### Documentation (`/docs`)
 
 We must maintain up-to-date docs in our codebase `/docs` dir. Always consult this folder and create new docs if they are missing. If there is a discrepency between the docs, code, or request that is unclear, surface it for clarification. Use these docs to track feature implementation, appending in the same format you use in `AGENT_MESSAGE_BOARD.md` (though with more detail so it could be handed off to future developers).
+
+Write encompassing yet concise specs as comments at the top of files explaining their purpose, structure, and reasoning. Check before editing files and update as necessary.
 
 ---
 
@@ -83,21 +78,35 @@ This stack is deliberate. Extensively leverage the tools' affordances and power.
 
 - **Typescript/`tsx` + Node.js + pnpm** for runtime and package manager
 - **Vercel + Next.js + React** for framework
-  - **@vercel/analytics + @vercel/speed-insights** for analytics/monitoring
-- **Trusted Libraries**: leverage existing libraries, don't re-invent the wheel, find the 80/20
-  - **Battle Tested**: popular, used by big companies, >200k weekly downloads
-  - **Supported**: not deprecated, recent updates, active community
-  - **Common/Favorites**: `fs-extra`, `ffmpeg`, `execa`, `pretty-ms`, `date-fns`, `react-markdown`, `color2k`, `libphone-js`
+  - **`@vercel/analytics` + `@vercel/speed-insights`** for analytics/monitoring
+- **uv** for all Python
+
+### Utilities
+
+Leverage existing, trusted libraries. Don't re-invent the wheel. Find the 80/20
+- **Battle Tested**: popular, used by big companies, >200k weekly downloads
+- **Supported**: not deprecated, recent updates, active community
+
+Must-Use
+
+- `es-toolkit`: many helpers
+- `fs-extra`: 
+- `execa`: improved `exec` method
+- `pretty-ms`: representing time
+- `date-fns`: all dating functions
+- `react-markdown`: rendering markdown (we have our own `markdown.tsx`)
+- `color2k`: 
+- `libphone-js`: standardize phones
+- `case-anything`: all casing
+- `nuqs`: 
 
 ### Backend
 
 - **OpenAI AgentKit** for agentic workflows (with WISYWIG) and ChatGPT/ChatKit integration
   - **OpenAI Agents JS SDK** [`@openai/agents`] for all LLM processing and agentic logic
     - *REMEMBER*: use `@openai/agents`, NOT `openai`
-  - **Models**: `gpt-5` family for text/vision, `gpt-4o-transcribe` for transcription, `gpt-image-1` for image generation
   - **Zod** for ***SSOT*** objects/args definition for Agent `tools`; OpenAI doesn't accept `.optional()`, use `.nullable()` instead
 - **Convex** for database and file storage
-  - use `schema.ts` as the ***SSOT***
   - leverage Convex **Components** and `convex-helpers`
 - **Clerk** for auth and paid subscriptions
 
@@ -130,38 +139,23 @@ It's especially important for frontend that we maintain DRY, SSOT principles.
 
 ## Testing and Debugging
 
+We keep it simple. Always check our always-on `tmux` sessions (`dev`, `convex`, `build`) or Vercel and Axiom CLIs for logs.
+
 ### Testing Guidelines
 
-- Create isolated `tmux` environments for testing
+- create isolated `tmux` servers for testing
 - use `gtimeout` to avoid hanging when running/testing servers
 - run `pnpm build` before deploying
 
 ### Deployment/Build Errors
 
-- check `tmux` sessions for debugging (ones below usually running outside of your environment)
-  - use `tmux ls` when confused
-  - `tmux attach -t dev`: running the dev server
-   - Next.js logs browser console with `browserDebugInfoInTerminal`
+- always check our `tmux` sessions to debug `dev` or `convex` errors (usually already running)
+  - `tmux attach -t dev`: running the dev server (also gets Next.js browser console logs)
   - `tmux attach -t convex`: running the Convex db
+  - `tmux attach -t build`: where we run builds
 - check logs with `axiom` CLI
 - build -> fix -> `git push` with `fix: <description>` -> `vercel inspect [deployment-id or url] --wait` to check success
 - for **persistent/recurring errors**, inscrubtably investigate where it started failing with the Github and Vercel CLIs to find the root cause
-
----
-
-## Documentation
-
-### Product Specs
-
-Write encompassing yet concise specs as comments at the top of files explaining their purpose, structure, and reasoning. Check before editing files and update as necessary.
-
-### Git Guidelines
-
-Keep commits atomic: commit only the files you touched and list each path explicitly. 
-- For tracked files run `git commit -m "<scoped message>" -- path/to/file1 path/to/file2`. 
-- For brand-new files, use the one-liner `git restore --staged :/ && git add "path/to/file1" "path/to/file2" && git commit -m "<scoped message>" -- path/to/file1 path/to/file2`
-- **write a descriptive title & description**, including the goal, reasoning, and a summary of the session/conversation transcript
-    - use **conventional prefiexes** (`feat:`, `fix:`, `refactor:`,  `docs:`, `chore:`)
 
 ---
 
@@ -171,22 +165,46 @@ Leverage to get info and take actions.
 
 ### MCPs
 
-- `Context7`: explore and reference docs when implementing all libraries, APIs, etc. to ensure best practice and maximize SOTA capabilities
-- `chrome-dev-tools`: control Chrome browsers to test and debug
+The two MCPs you always have access to for intenal docs (`deepwiki`) and external docs (`Context7`). `npx mcporter` is a CLI tool to give you access to all other MCPs.
+
+- `Context7`: use to find specific docs any time you're implementing a library, APIs, etc. to ensure best practice and maximize SOTA paradigms
 - `deepwiki`: query a Wiki of the codebase (updated weekly so maybe out of date)
+
+#### mcporter
+
+`npx mcporter` is a CLI that can run any registered MCP server; pass the server name as the final arg (`npx mcporter <server>`). Use `npx mcporter --help` to list available servers. Common endpoints: 
+- `Convex`: docs & data anlysis
+- `shadcn`: interact with items from registries, browse components (w/ docs), and install into project
+- `firecrawl`: site-to-Markdown fetching
+- `Linear`: coding project management
+- `Notion`: general (and code) project management and company knowledge
+- `figma`: look at our designs (rarely used)
+
+### Oracle
+
+- Oracle bundles a prompt plus the right files so another AI (GPT 5 Pro + more) can answer. Use when stuck/bugs/reviewing.
+- Run `npx -y @steipete/oracle --help` once per session before first use.
+- Include your `AGENTS.md` files (or a summary of relevant rules) dirtectly in your request (not just in the attached files)
 
 ### CLIs
 
-I've provided some commands, but use `--help` to fully explore.
+I've provided some common commands, but use `--help` to fully explore.
 
-#### General
+#### Utilities
 
 - `fd`: simple, fast and user-friendly alternative to "find"
-- `rg` (`ripgrep`): improved grep
+- `rg` (`ripgrep`): improved, modern `grep`
 - `jq`: lightweight and flexible command-line JSON processor
+
+#### Exploration
+
+- `codefetch`: CLI tool to convert 
+  - `--max-tokens 60000`: limits total tokens as to not floor the context window
+  - `-p <fix | improve | codegen | testgen>`: built-in prompts
+- `scc`: summarize code content
 - `git-delta`: syntax-highlighting pager for git and diff output
 
-#### Organization
+#### Organization/Management
 
 - `linear`: Linear control (non-official)
   - `linear i list`: list issues
@@ -202,17 +220,10 @@ I've provided some commands, but use `--help` to fully explore.
   - `axiom stream	`: stream the data
 - `vercel`
   - `list`: list project deployments
-  - `inspect [deployment-id or url]`: retrieves information about a deployment by its deployment URL or ID
-    - `--wait` blocks the CLI until the specified deployment has completed
-    - `--logs` prints the build logs instead of the deployment information.
-  - `redeploy [deployment-id or url]`: rebuild and redeploy an existing deployment
-
-#### Refactors
-
-- `knip`: find dead code
-- `jscpd`: find duplicated code, 
-  - do not run plain, as codebases often have CSVs, MD files, and more that bloat usage. use `--pattern` to narrow down, like below
-  - `jscpd --pattern "app/../*.tsx"`, `jscpd --pattern "components/**/*.tsx"`
+  - `inspect [deployment-id or url]`: retrieves deployment info
+    - `--wait` blocks CLI until deployment's completed
+    - `--logs` prints build logs instead of deployment info
+  - `redeploy [deployment-id or url]`
 
 ---
 
@@ -233,20 +244,47 @@ I've provided some commands, but use `--help` to fully explore.
 
 ---
 
+<simplification_instructions>
+
+- enforce DRY, minimal, readable coding practices
+- leverage existing toolkits and find opportunities to expand
+- look for opportunities to re-use components throughout the code base
+- what dependencies (APIs, libraries, etc.) are we missing that would greatly reduce LOC and improve code readability?
+
+Some specific tools to use are
+
+- list files by LOC, code complexity, etc. to find the worst offenders `scc . --include-ext ts,tsx --by-file`
+- `knip`: find dead code
+- `jscpd`: find duplicated code, 
+  - use `--pattern` to avoid CSVs, MDs, etc.
+    - e.g. `jscpd --pattern "app/../*.tsx"`, `jscpd --pattern "components/**/*.tsx"`
+
+</simplification_instructions>
+
+---
+
 </convex_instructions>
 
 ## Convex Instructions
 
-- Data model: `convex/schema.ts`.
-- Documentation in `.docs/Convex` directory
-  - Best practices overview in `docs/Convex/convex_rules.md`
+It is essential to leverage Convex to it's maximum potential. Consult the docs 
 
-### Server Helpers
+## CLI
 
-- Validation: use `convex-helpers/server/zod` (`zCustomQuery`, `zCustomMutation`) for Zod-first arg schemas; prefer `zid('<table>')` for typed Ids.
+- Preferred: `npx convex run <module>:<export> '<jsonArgs>'`.
+  - `<module>` is relative to `convex/` without `.ts` (e.g., `convex/<module>.ts` → `<module>`).
+  - DO NOT prefix with `internal/`
+- target prod with `--prod` flag
+- deploy with `npx convex deploy -y`
+
+---
+
+### Server Helpers (`convex-helpers/server`)
+
+- Validation: use `convex-helpers/server/zod` (`zCustomQuery`, `zCustomMutation`) for Zod-first arg schemas; prefer `zid('<table>')` for typed IDs.
 - Joins/feeds: compose cross-table reads with `convex-helpers/server/stream`; add necessary indexes up-front to avoid N+1.
 - HTTP/CORS: prefer `convex-helpers/server/cors` (`corsRouter`) for cross-origin HTTP; use Hono (`server/hono`) only for prototypes (RLS caveat).
-- CRUD: avoid `convex-helpers/server/crud` in production without RLS; prefer explicit functions with row-level checks.
+- `convex-helpers/server/crud`: basic CRUD functions for every table (only use in production with RLS)
 
 ### Client Integration
 
@@ -259,30 +297,18 @@ I've provided some commands, but use `--help` to fully explore.
 
 ---
 
-## CLI: Running Functions
-
-- Preferred: `npx convex run <module>:<export> '<jsonArgs>'`.
-  - `<module>` is relative to `convex/` without `.ts` (e.g., `convex/<module>.ts` → `<module>`).
-  - DO NOT prefix with `internal/`
-- target prod with `--prod` flag
-- deploy with `npx convex deploy -y`
-
----
-
 ## Migrations
 
-Use the `@convex-dev/migrations` component with runners in `convex/migrations.ts` (reference `convex_migrations.md` for full guidance)
+Use `@convex-dev/migrations` component with runners in `convex/migrations.ts` (reference `convex_migrations.md` for full guidance). The standard flow is:
 
-Standard flow:
-
-- loosen schema/app to tolerate old+new values.
+- loosen schema/app to tolerate old+new values
 - add `migrations.define({ table, migrateOne })` in `convex/migrations.ts` (idempotent; skip no‑ops; no external APIs).
 - dry run: `npx convex run migrations:runYourFn '{"dryRun":true,"cursor":null}'`
-- full run: `npx convex run migrations:runYourFn '{"cursor":null}'`
+- full run: `npx convex run migrations:runYourFn '{"cursor":null}'`*
 - monitor: `npx convex run --component migrations lib:getStatus --watch`
 - cancel: `npx convex run --component migrations lib:cancel '{"name":"migrations:yourFnName"}'`.
 
-Why the explicit `{"cursor":null}`? The migrations runner defaults to a dry-run preview when no cursor is provided (see `.docs/Convex/components/convex_migrations.md`). Passing `cursor:null` tells Convex to start real work from the beginning; omit it only when you’re resuming from a specific cursor.
+*`"cursor":null` makes it to real work from the start (as opposed to the dry-run default); omit only when resuming from a specific cursor.
 
 ---
 
@@ -295,12 +321,14 @@ Why the explicit `{"cursor":null}`? The migrations runner defaults to a dry-run 
 
 ---
 
-## Rules
+## Tables (`schema.ts`)
 
 - use ISO strings for dates
 - NEVER add `createdAt` or `id` fields (`id` & `_creationTime` are automatically tracked)
 
 </convex_instructions>
+
+---
 
 <react_instructions>
 
@@ -313,6 +341,8 @@ Why the explicit `{"cursor":null}`? The migrations runner defaults to a dry-run 
 Most “I think I need an Effect” cases are better solved by: computing values during render (sometimes memoized), handling work in **event handlers**, lifting state, or resetting state with a `key`. Use Effects for external sync—and keep them tight with proper cleanup to avoid bugs like race conditions.
 
 <react_instructions>
+
+---
 
 <next_instructions>
 
