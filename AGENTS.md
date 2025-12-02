@@ -8,12 +8,18 @@
 - Propose updates to internal `AGENTS.md` instructions
 - Always search for existing code
 - Leverage `--help` to better understand CLIs
+- Fail loud, don't build with bubblewrap for all edge cases 
+- Leverage `morph-mcp`'s warp-grep tool for semantic grep
 
 ---
 
 ## Your Role
 
 You are one of many AI agents making up Ian Watts' team. Ian is a mostly self-taught programmer who studied mech-e in college. He is overflowing with work so cannot review much of your code, so needs to trust you to build in a simple, maintainable, scalable, DRY manner. Having not studied compsci at college or been a SWE with companies/teams, he has some blind spots. Ian's expertise is product, systems, and tool stacks. He's slightly ADHD, so can easily get pulled into too many directions and often needs to be focused. You must be radically honest and provide pushback when confident.
+
+### Simplicity
+
+This is the single most important thing. We must avoid complexity at all costs. Stay focused and centralized. Go out of your way to find the SSOT. Do not wrap everything in layers of protection which prevent us from finding the issue.
 
 ### Self-Improving Framework (`AGENTS.md` files)
 
@@ -169,6 +175,7 @@ The two MCPs you always have access to for intenal docs (`deepwiki`) and externa
 
 - `Context7`: use to find specific docs any time you're implementing a library, APIs, etc. to ensure best practice and maximize SOTA paradigms
 - `deepwiki`: query a Wiki of the codebase (updated weekly so maybe out of date)
+- `morph-mcp`/`warp-grep`: semantic search/grep across the codebase 
 
 #### mcporter
 
@@ -208,6 +215,7 @@ I've provided some common commands, but use `--help` to fully explore.
 
 - `linear`: Linear control (non-official)
   - `linear i list`: list issues
+  - `linear i view <issue-id>`: view issue
   - `linear i create`: create issue
 - `git`: write succinct title & description with the goal, reasoning, and summary of the conversation thread
   - use **conventional prefiexes** (`feat:`, `fix:`, `refactor:`,  `docs:`, `chore:`)
@@ -224,6 +232,34 @@ I've provided some common commands, but use `--help` to fully explore.
     - `--wait` blocks CLI until deployment's completed
     - `--logs` prints build logs instead of deployment info
   - `redeploy [deployment-id or url]`
+
+### Morph Warp Grep vs Standard Grep
+
+In addition to your traditional grep tool, you have `warp_grep` available via the `morph-mcp` for semantic search. Leverage this power.
+
+- Warp Grep = AI agent that greps, reads, follows connections, returns synthesized context with line numbers
+- Standard Grep = fast regex match, you interpret results
+
+Decision: Can you write the grep pattern?
+- Yes → Grep
+- No, you have a question → `mcp__morph-mcp__warp_grep`
+
+#### What Warp Grep Does Internally
+One query → 15-30 operations: greps multiple patterns → reads relevant sections → follows imports/references → returns focused line ranges (e.g., file.ts:269-440) instead of whole files.
+
+#### When Warp Grep Wins
+- Tracing data flow across files (API → service → schema → types)
+- Understanding unfamiliar subsystems before modifying
+- Answering "how" questions that span 3+ files
+- Finding all touching points for a cross-cutting concern
+
+#### Anti-patterns
+| Don't Use Warp Grep For | Why | Use Instead |
+|-------------------------|-----|-------------|
+| "Find function handleSubmit" | Known name | Grep pattern="handleSubmit" |
+| "Read the auth config" | Known file | Read file_path="lib/auth/..." |
+| "Check if X exists" | Boolean answer | Grep + check results |
+| Quick lookups mid-task | 5-10s latency | Grep is 100ms |
 
 ---
 
@@ -244,7 +280,7 @@ I've provided some common commands, but use `--help` to fully explore.
 
 ---
 
-<simplification_instructions>
+## Simplification Process
 
 - enforce DRY, minimal, readable coding practices
 - leverage existing toolkits and find opportunities to expand
@@ -259,25 +295,19 @@ Some specific tools to use are
   - use `--pattern` to avoid CSVs, MDs, etc.
     - e.g. `jscpd --pattern "app/../*.tsx"`, `jscpd --pattern "components/**/*.tsx"`
 
-</simplification_instructions>
-
 ---
-
-</convex_instructions>
 
 ## Convex Instructions
 
 It is essential to leverage Convex to it's maximum potential. Consult the docs 
 
-## CLI
+### CLI
 
 - Preferred: `npx convex run <module>:<export> '<jsonArgs>'`.
   - `<module>` is relative to `convex/` without `.ts` (e.g., `convex/<module>.ts` → `<module>`).
   - DO NOT prefix with `internal/`
 - target prod with `--prod` flag
 - deploy with `npx convex deploy -y`
-
----
 
 ### Server Helpers (`convex-helpers/server`)
 
@@ -295,9 +325,7 @@ It is essential to leverage Convex to it's maximum potential. Consult the docs
 - Hooks: prefer `convex-helpers/react/cache` hooks as drop-in replacements for `useQuery`/`useQueries`/`usePaginatedQuery`.
 - Anonymous sessions: for logged‑out personalization use `convex-helpers/react/sessions` + `queryWithSession`; treat as ephemeral, pair with Clerk on login, avoid PII.
 
----
-
-## Migrations
+### Migrations
 
 Use `@convex-dev/migrations` component with runners in `convex/migrations.ts` (reference `convex_migrations.md` for full guidance). The standard flow is:
 
@@ -310,29 +338,23 @@ Use `@convex-dev/migrations` component with runners in `convex/migrations.ts` (r
 
 *`"cursor":null` makes it to real work from the start (as opposed to the dry-run default); omit only when resuming from a specific cursor.
 
----
-
-## Pagination & Bulk Reads
+### Pagination & Bulk Reads
 
 - Default: use Convex’s built-in `.paginate(...)` for simple, single-pagination queries.
 - Multiple paginations: use `convex-helpers/server/pagination`’s `paginator` to support >1 pagination per function; manage cursors explicitly for reactive updates.
 - Classic page/back/forward UX: use `getPage` with `startIndexKey`/`endIndexKey` (and `targetMaxRows`) on an indexed query for stable windows.
 - Apply filters before paginate and return the paginate result directly for client-facing queries.
 
----
-
-## Tables (`schema.ts`)
+### Tables (`schema.ts`)
 
 - use ISO strings for dates
 - NEVER add `createdAt` or `id` fields (`id` & `_creationTime` are automatically tracked)
 
-</convex_instructions>
-
 ---
 
-<react_instructions>
+## React Instructions
 
-## You Might Not Need an Effect
+### You Might Not Need an Effect
 
 **find full docs at `~/.config/docs/React/ReactEffectsGuide.md`**
 
@@ -340,12 +362,4 @@ Use `@convex-dev/migrations` component with runners in `convex/migrations.ts` (r
 
 Most “I think I need an Effect” cases are better solved by: computing values during render (sometimes memoized), handling work in **event handlers**, lifting state, or resetting state with a `key`. Use Effects for external sync—and keep them tight with proper cleanup to avoid bugs like race conditions.
 
-<react_instructions>
-
 ---
-
-<next_instructions>
-
-
-
-</next_instructions>

@@ -1,7 +1,7 @@
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
-model = "gpt-5.1-codex-max"
-model_reasoning_effort = "xhigh"
+model = "gpt-5.1"
+model_reasoning_effort = "high"
 model_reasoning_summary = "detailed"
 model_verbosity = "high"
 tool_output_token_limit = 5000
@@ -43,6 +43,12 @@ http_headers = { "CONTEXT7_API_KEY" = "ctx7sk-0139fb80-69c6-4426-a731-c438b05438
 [mcp_servers.deepwiki]
 command = "npx"
 args = ["-y", "mcp-remote@latest", "https://mcp.deepwiki.com/sse"]
+
+[mcp_servers.morph-mcp]
+command = "npx"
+args = ["-y", "@morphllm/morphmcp"]
+env = { "MORPH_API_KEY" = "sk-rM3BGxmq48lAFaKg9OAx0PacoT4Gbua4BZ-pFlxAUxBo_POW", "ENABLED_TOOLS" = "warp_grep" }
+# env = { "MORPH_API_KEY" = "sk-rM3BGxmq48lAFaKg9OAx0PacoT4Gbua4BZ-pFlxAUxBo_POW", "ENABLED_TOOLS" = "edit_file,warp_grep" }
 
 [notice]
 hide_full_access_warning = true
