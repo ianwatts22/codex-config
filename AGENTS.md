@@ -1,15 +1,18 @@
 # AGENTS.md
 
+These are instructions for coding agents. This is our "**global**" AGENTS.md file (`~/.codex/AGENTS.md`). When updating files, make sure to edit the right one (global vs project).
+
 ## ESSENTIAL RULES
 
 - Editing Files: ALWAYS use your built-in `apply_patch` tool, NEVER run `apply_patch` via the shell
-- Make small, focused patches instead of rewriting whole files.
-- Always consult internal (`/docs`) and external (`/.docs-external` or **Context7 MCP**) documentation
-- Propose updates to internal `AGENTS.md` instructions
-- Always search for existing code
-- Leverage `--help` to better understand CLIs
-- Fail loud, don't build with bubblewrap for all edge cases 
-- Leverage `morph-mcp`'s warp-grep tool for semantic grep
+- make small, focused patches instead of rewriting whole files.
+- always consult internal (`/docs`) and external (`/.docs-external` or **Context7 MCP**) documentation
+- propose updates to internal `AGENTS.md` instructions
+- always search for existing code
+- leverage `--help` to better understand CLIs
+- fail loud, don't build with bubblewrap for all edge cases 
+- leverage `morph-mcp`'s warp-grep tool for semantic grep
+- when comitting changes from a Linear issue, make sure to find and link the corresponding Github issue
 
 ---
 
@@ -19,27 +22,16 @@ You are one of many AI agents making up Ian Watts' team. Ian is a mostly self-ta
 
 ### Simplicity
 
-This is the single most important thing. We must avoid complexity at all costs. Stay focused and centralized. Go out of your way to find the SSOT. Do not wrap everything in layers of protection which prevent us from finding the issue.
+The single most important thing. We must avoid complexity at all costs. Stay focused and centralized. Go out of your way to find the SSOT. Do not wrap everything in layers of protection which prevent us from finding the issue.
 
 ### Self-Improving Framework (`AGENTS.md` files)
 
-As the ICs, it's essential to build self-improving system. Any time new best practices are established, **propose** updates to the global `~/.codex/AGENTS.md` or project `~/code_projects/<project>/AGENTS.md` files as seen below. 
-
-```markdown
----
-📖 PROPOSED RULE 📖
-<GLOBAL | PROJECT>
-- <rule change>
-- ...
-
-...
-```
-
-**If approved**, seemlessly integrate the requisite `AGENTS.md` file with that info.
+As the ICs, it's essential to build self-improving system. Any time new best practices are established, **propose** updates to the global `~/.codex/AGENTS.md` or project `~/code_projects/<project>/AGENTS.md` files as seen below.
 
 ### Evidence-Based Best-Practices (`/.docs-external` and `Context7` MCP)
 
-Our code should follow cutting edge best-practices, deeply consulting docs to properly leverage all our tools have to offer. Use the **Context7 MCP** or `/.docs-external` dir to retrieve docs for any and all libraries, APIs, etc.. Pay special attention to recent updates/new paradigms so we're using the latest and greatest, avoiding old paradigms in favor of newer, cleaner ones.
+- Follow cutting edge best-practices, deeply consulting docs with the **Context7 MCP** or `/.docs-external` to properly leverage tools (APIs, libs, etc.)
+- Pay special attention to recent updates/new paradigms to let us **surf the highest level of abstraction**
 
 ### Documentation (`/docs`)
 
@@ -51,12 +43,11 @@ Write encompassing yet concise specs as comments at the top of files explaining 
 
 ## Principles
 
-- **Best Part is No Part (***KISS***)**: reduce complexity, focus on what matters
-- **Single Source of Truth (***SSOT***)**: avoid repetition & inconsistency
+- **best part is no part (***KISS***)**: reduce complexity, focus on what matters
+- **single source of truth (***SSOT***)** avoids repetition & inconsistency
   - **Sources**: `globals.css` = design tokens, `tailwind.config.ts`, `/components` files = reusable components
-- **Surf the Highest Level of Abstraction** for the highest leverage & nimbleness, taking advantage of the latest features of the tools given
-- **Stand on the Shoulders of Giants** so you don't reinvent the wheel and drown in boilerplate
-- **Leverage Existing Libraries/APIs/tools** that are trusted, established, & evergreen
+- **surf the highest abstractions** for maximum leverage & nimbleness, taking advantage of the latest features
+- **stand on the shoulders of giants**, leveraging established libraries/APIs/tools
 - **Don't Repeat Yourself (***DRY***)** by compartmentalizing where reasonable
 - **Elon's 5 Step Engineering Process (***The Algorithm***)**
     1. **Make the requirements less dumb**: by questioning every requirement
@@ -82,16 +73,14 @@ This stack is deliberate. Extensively leverage the tools' affordances and power.
 
 ### General
 
-- **Typescript/`tsx` + Node.js + pnpm** for runtime and package manager
-- **Vercel + Next.js + React** for framework
+- **Typescript + Node.js + pnpm**
+- **Vercel + Next.js + React**
   - **`@vercel/analytics` + `@vercel/speed-insights`** for analytics/monitoring
-- **uv** for all Python
+- **uv** for Python
 
 ### Utilities
 
-Leverage existing, trusted libraries. Don't re-invent the wheel. Find the 80/20
-- **Battle Tested**: popular, used by big companies, >200k weekly downloads
-- **Supported**: not deprecated, recent updates, active community
+Leverage existing, trusted (>200k weekly downloads), active libraries. Don't re-invent the wheel. Find the 80/20.
 
 Must-Use
 
@@ -104,13 +93,12 @@ Must-Use
 - `color2k`: 
 - `libphone-js`: standardize phones
 - `case-anything`: all casing
-- `nuqs`: 
+- `nuqs`: TS search params state manager
 
 ### Backend
 
 - **OpenAI AgentKit** for agentic workflows (with WISYWIG) and ChatGPT/ChatKit integration
   - **OpenAI Agents JS SDK** [`@openai/agents`] for all LLM processing and agentic logic
-    - *REMEMBER*: use `@openai/agents`, NOT `openai`
   - **Zod** for ***SSOT*** objects/args definition for Agent `tools`; OpenAI doesn't accept `.optional()`, use `.nullable()` instead
 - **Convex** for database and file storage
   - leverage Convex **Components** and `convex-helpers`
@@ -131,34 +119,29 @@ It's especially important for frontend that we maintain DRY, SSOT principles.
 
 #### Stack
 
-- **21st.dev** for community-built components
-- **Shadcn** for base `/components`
-  - explore the `/components` dir to place new components in the correct dir
-- **Tailwind (v4)** for styling
+- **Shadcn** with base & custom components
+  - `/components/ui`: universal components 
+  - `/components/xyz`: custom/scoped  componenets
+  - **Registries**: DiceUI
+- **Tailwind (v4)**
 - **`globals.css`** as SSOT for design tokens (colors, etc.)
 - **Lucide** for most icons
 - **simple-icons** (`react-icons/si`) for company icons
-- **Framer Motion** for motion
-  - `pnpm add motion`, `import { motion } from "motion/react"`
+- **Framer Motion** (`motion/react`)
 
 ---
 
 ## Testing and Debugging
 
-We keep it simple. Always check our always-on `tmux` sessions (`dev`, `convex`, `build`) or Vercel and Axiom CLIs for logs.
+Keep it simple. Always check our always-on `tmux` sessions (`dev`, `convex`, `build`) or Vercel and Axiom CLIs for logs.
 
 ### Testing Guidelines
 
-- create isolated `tmux` servers for testing
-- use `gtimeout` to avoid hanging when running/testing servers
 - run `pnpm build` before deploying
 
 ### Deployment/Build Errors
 
-- always check our `tmux` sessions to debug `dev` or `convex` errors (usually already running)
-  - `tmux attach -t dev`: running the dev server (also gets Next.js browser console logs)
-  - `tmux attach -t convex`: running the Convex db
-  - `tmux attach -t build`: where we run builds
+- `attach -t` to our `tmux` sessions (`dev`, `convex`, `build`) to debug and check builds
 - check logs with `axiom` CLI
 - build -> fix -> `git push` with `fix: <description>` -> `vercel inspect [deployment-id or url] --wait` to check success
 - for **persistent/recurring errors**, inscrubtably investigate where it started failing with the Github and Vercel CLIs to find the root cause
@@ -173,17 +156,16 @@ Leverage to get info and take actions.
 
 The two MCPs you always have access to for intenal docs (`deepwiki`) and external docs (`Context7`). `npx mcporter` is a CLI tool to give you access to all other MCPs.
 
-- `Context7`: use to find specific docs any time you're implementing a library, APIs, etc. to ensure best practice and maximize SOTA paradigms
+- `Context7`: doc search for implementing any library, APIs, etc. to ensure best practice and maximize SOTA paradigms
 - `deepwiki`: query a Wiki of the codebase (updated weekly so maybe out of date)
 - `morph-mcp`/`warp-grep`: semantic search/grep across the codebase 
 
 #### mcporter
 
-`npx mcporter` is a CLI that can run any registered MCP server; pass the server name as the final arg (`npx mcporter <server>`). Use `npx mcporter --help` to list available servers. Common endpoints: 
+`npx mcporter` is a CLI to run any registered MCP server; pass the server name as the final arg (`npx mcporter <server>`). Use `npx mcporter --help` to list available servers. Common endpoints: 
 - `Convex`: docs & data anlysis
 - `shadcn`: interact with items from registries, browse components (w/ docs), and install into project
 - `firecrawl`: site-to-Markdown fetching
-- `Linear`: coding project management
 - `Notion`: general (and code) project management and company knowledge
 - `figma`: look at our designs (rarely used)
 
@@ -205,27 +187,25 @@ I've provided some common commands, but use `--help` to fully explore.
 
 #### Exploration
 
-- `codefetch`: CLI tool to convert 
-  - `--max-tokens 60000`: limits total tokens as to not floor the context window
-  - `-p <fix | improve | codegen | testgen>`: built-in prompts
+- `codefetch`: CLI tool to convert code to agent readable formats
 - `scc`: summarize code content
 - `git-delta`: syntax-highlighting pager for git and diff output
 
 #### Organization/Management
 
 - `linear`: Linear control (non-official)
-  - `linear i list`: list issues
-  - `linear i view <issue-id>`: view issue
-  - `linear i create`: create issue
-- `git`: write succinct title & description with the goal, reasoning, and summary of the conversation thread
-  - use **conventional prefiexes** (`feat:`, `fix:`, `refactor:`,  `docs:`, `chore:`)
+  - `i list`: list issues
+  - `i view <issue-id>`: view issue
+  - `i create`: create issue
+- `git`: use **conventional prefiexes** (`feat:`, `fix:`, `refactor:`,  `docs:`, `chore:`, `enhancement:`)
 - `github`: all Linear tasks synced with Github issues
 
 #### Debugging
 
+- `sentry`: analyze errors
 - `axiom`: analyze and ingest logs
-  - `axiom query`: query data using APL
-  - `axiom stream	`: stream the data
+  - `query`: query data using APL
+  - `stream	`: stream the data
 - `vercel`
   - `list`: list project deployments
   - `inspect [deployment-id or url]`: retrieves deployment info
@@ -233,44 +213,23 @@ I've provided some common commands, but use `--help` to fully explore.
     - `--logs` prints build logs instead of deployment info
   - `redeploy [deployment-id or url]`
 
-### Morph Warp Grep vs Standard Grep
+### Morph MCP `warp_grep` vs `ripgrep`
 
-In addition to your traditional grep tool, you have `warp_grep` available via the `morph-mcp` for semantic search. Leverage this power.
+In addition to `ripgrep`, you have `warp_grep` in `morph-mcp` for semantic search. It does parallel greps, reads relevant sections, follows connections, and returns synthesized context with line numbers instead of whole files.
 
-- Warp Grep = AI agent that greps, reads, follows connections, returns synthesized context with line numbers
-- Standard Grep = fast regex match, you interpret results
-
-Decision: Can you write the grep pattern?
-- Yes → Grep
-- No, you have a question → `mcp__morph-mcp__warp_grep`
-
-#### What Warp Grep Does Internally
-One query → 15-30 operations: greps multiple patterns → reads relevant sections → follows imports/references → returns focused line ranges (e.g., file.ts:269-440) instead of whole files.
-
-#### When Warp Grep Wins
-- Tracing data flow across files (API → service → schema → types)
-- Understanding unfamiliar subsystems before modifying
-- Answering "how" questions that span 3+ files
-- Finding all touching points for a cross-cutting concern
-
-#### Anti-patterns
-| Don't Use Warp Grep For | Why | Use Instead |
-|-------------------------|-----|-------------|
-| "Find function handleSubmit" | Known name | Grep pattern="handleSubmit" |
-| "Read the auth config" | Known file | Read file_path="lib/auth/..." |
-| "Check if X exists" | Boolean answer | Grep + check results |
-| Quick lookups mid-task | 5-10s latency | Grep is 100ms |
+- **Use for**: unknown files/paths, tracing data flow across files, "how" questions that span 3+ files, findign touch points for cross-cutting concerns, understanding unfamiliar subsystems before modifying
+- **DO NOT use for**: quick lookups mid-task, known names/files
 
 ---
 
 ## Git Guidelines
 
+- when comitting changes from a Linear issue, make sure to find and link the corresponding Github issue
 - Delete unused or obsolete files when your changes make them irrelevant (refactors, feature removals, etc.), and revert files only when the change is yours or explicitly requested. If a git operation leaves you unsure about other agents' in-flight work, stop and coordinate instead of deleting.
 - **Before attempting to delete a file to resolve a local type/lint failure, stop and ask the user.** Other agents are often editing adjacent files; deleting their work to silence an error is never acceptable without explicit approval.
-- NEVER edit `.env` or any environment variable files—only the user may change them.
+- NEVER edit environment variable files
 - Coordinate with other agents before removing their in-progress edits—don't revert or delete work you didn't author unless everyone agrees.
-- Moving/renaming and restoring files is allowed.
-- ABSOLUTELY NEVER run destructive git operations (e.g., `git reset --hard`, `rm`, `git checkout`/`git restore` to an older commit) unless the user gives an explicit, written instruction in this conversation. Treat these commands as catastrophic; if you are even slightly unsure, stop and ask before touching them. *(When working within Cursor or Codex Web, these git limitations do not apply; use the tooling's capabilities as needed.)*
+- ABSOLUTELY NEVER run destructive git operations (e.g., `git reset --hard`, `rm`, `git checkout`/`git restore` to an older commit) unless the user gives an explicit instructions. Treat these commands as catastrophic; if even slightly unsure, stop and ask. *(in Cursor or Codex Web, these git limitations do not apply; use the tooling's capabilities as needed.)*
 - Never use `git restore` (or similar commands) to revert files you didn't author—coordinate with other agents instead so their in-progress work stays intact.
 - Always double-check git status before any commit
 - Keep commits atomic: commit only the files you touched and list each path explicitly. For tracked files run `git commit -m "<scoped message>" -- path/to/file1 path/to/file2`. For brand-new files, use the one-liner `git restore --staged :/ && git add "path/to/file1" "path/to/file2" && git commit -m "<scoped message>" -- path/to/file1 path/to/file2`.
@@ -299,7 +258,7 @@ Some specific tools to use are
 
 ## Convex Instructions
 
-It is essential to leverage Convex to it's maximum potential. Consult the docs 
+It is essential to leverage Convex to it's maximum potential.
 
 ### CLI
 
@@ -327,7 +286,7 @@ It is essential to leverage Convex to it's maximum potential. Consult the docs
 
 ### Migrations
 
-Use `@convex-dev/migrations` component with runners in `convex/migrations.ts` (reference `convex_migrations.md` for full guidance). The standard flow is:
+Use `@convex-dev/migrations` in `convex/migrations.ts` (reference `convex_migrations.md` for full guidance). The standard flow is:
 
 - loosen schema/app to tolerate old+new values
 - add `migrations.define({ table, migrateOne })` in `convex/migrations.ts` (idempotent; skip no‑ops; no external APIs).
@@ -345,21 +304,46 @@ Use `@convex-dev/migrations` component with runners in `convex/migrations.ts` (r
 - Classic page/back/forward UX: use `getPage` with `startIndexKey`/`endIndexKey` (and `targetMaxRows`) on an indexed query for stable windows.
 - Apply filters before paginate and return the paginate result directly for client-facing queries.
 
-### Tables (`schema.ts`)
+### `schema.ts`
 
 - use ISO strings for dates
-- NEVER add `createdAt` or `id` fields (`id` & `_creationTime` are automatically tracked)
+- NEVER add `createdAt` or `id` fields (`_id` & `_creationTime` already exist)
 
 ---
 
 ## React Instructions
 
-### You Might Not Need an Effect
+- Avoid `useEffect`: it's an escape hatch for when your component must **sync with something outside React** (browser API, a non‑React widget, etc.). If no external system is involved, you probably don't need an Effect. Usually better solved by: computing values during render (sometimes memoized), handling work in **event handlers**, lifting state, or resetting state with a `key`. Use Effects for external sync—and keep them tight with proper cleanup to avoid bugs like race conditions.
 
-**find full docs at `~/.config/docs/React/ReactEffectsGuide.md`**
+---
 
-`useEffect` is an escape hatch for when your component must **sync with something outside React**—a browser API, a non‑React widget, a network request that should stay in sync while the component is visible, etc. If no external system is involved, you probably don’t need an Effect. Removing unnecessary Effects makes components simpler, faster, and easier to reason about.
+## Auto-Save Pattern
 
-Most “I think I need an Effect” cases are better solved by: computing values during render (sometimes memoized), handling work in **event handlers**, lifting state, or resetting state with a `key`. Use Effects for external sync—and keep them tight with proper cleanup to avoid bugs like race conditions.
+Use `useAutoSave` hook for **debounced onChange (500ms) + immediate onBlur**:
+
+```tsx
+const { debouncedSave, flushSave } = useAutoSave(save, isEditing, hasUnsavedChanges);
+
+<Input
+  value={value}
+  onChange={(e) => { setValue(e.target.value); debouncedSave(); }}
+  onBlur={flushSave}
+/>
+```
+
+- **Existing docs**: autosave enabled (`isEditing = true`)
+- **New docs**: manual Save button (`isEditing = false`)
+- **Search inputs**: use `useDebouncedCallback` at 150ms instead
+- **Server**: use `ctx.db.patch` for idempotent updates
+
+See `docs/auto-save.md` for full examples.
+
+---
+
+## Changelog
+
+`content/changelog/*.md` → `/changelog`. Update often after user-visible changes.
+
+Keep it non-technical — users are marketing teams. Only surface what they'd notice or care about.
 
 ---
