@@ -34,20 +34,19 @@ command = "/Users/ianwatts/RepoPrompt/repoprompt_cli"
 args = []
 enabled = false
 tool_timeout_sec = 1000
-tool_output_token_limit = 25000
 
-[mcp_servers.context7]
-url = "https://mcp.context7.com/mcp"
-http_headers = { "CONTEXT7_API_KEY" = "ctx7sk-0139fb80-69c6-4426-a731-c438b05438c4" }
+# [mcp_servers.context7]
+# url = "https://mcp.context7.com/mcp"
+# http_headers = { "CONTEXT7_API_KEY" = "ctx7sk-0139fb80-69c6-4426-a731-c438b05438c4" }
 
-[mcp_servers.deepwiki]
-command = "npx"
-args = ["-y", "mcp-remote@latest", "https://mcp.deepwiki.com/sse"]
+# [mcp_servers.deepwiki]
+# command = "npx"
+# args = ["-y", "mcp-remote@latest", "https://mcp.deepwiki.com/sse"]
 
-[mcp_servers.morph-mcp]
-command = "npx"
-args = ["-y", "@morphllm/morphmcp"]
-env = { "MORPH_API_KEY" = "sk-rM3BGxmq48lAFaKg9OAx0PacoT4Gbua4BZ-pFlxAUxBo_POW", "ENABLED_TOOLS" = "warp_grep" }
+# [mcp_servers.morph-mcp]
+# command = "npx"
+# args = ["-y", "@morphllm/morphmcp"]
+# env = { "MORPH_API_KEY" = "sk-rM3BGxmq48lAFaKg9OAx0PacoT4Gbua4BZ-pFlxAUxBo_POW", "ENABLED_TOOLS" = "warp_grep" }
 # env = { "MORPH_API_KEY" = "sk-rM3BGxmq48lAFaKg9OAx0PacoT4Gbua4BZ-pFlxAUxBo_POW", "ENABLED_TOOLS" = "edit_file,warp_grep" }
 
 [notice]
@@ -55,7 +54,17 @@ hide_full_access_warning = true
 hide_gpt5_1_migration_prompt = true
 "hide_gpt-5.1-codex-max_migration_prompt" = true
 
-[profiles.planning.mcp_servers.notion]
-url = "https://mcp.notion.com/mcp"
-enabled_tools = ["notion-create-comment", "notion-create-pages", "notion-fetch", "notion-get-comments", "notion-get-self", "notion-search", "notion-update-database", "notion-update-page"]
+[profiles.planning]
+model = "gpt-5.1"
+model_reasoning_effort = "high"
+
+# [mcp_servers.notion]
+# url = "https://mcp.notion.com/mcp"
+# enabled_tools = ["notion-create-comment", "notion-create-pages", "notion-fetch", "notion-get-comments", "notion-get-self", "notion-search", "notion-update-database", "notion-update-page"]
 # disabled_tools = ["notion-create-comment", "notion-create-database", "notion-create-pages", "notion-duplicate-page", "notion-fetch", "notion-get-comments", "notion-get-self", "notion-get-teams", "notion-get-user", "notion-get-users", "notion-list-agents", "notion-move-pages", "notion-search", "notion-update-database", "notion-update-page"]
+
+# ====== AGENT MAIL ======
+
+# [mcp_servers.mcp_agent_mail]
+# transport = "http"
+# url = "http://127.0.0.1:8765/mcp/"
