@@ -6,3 +6,8 @@ auth.json
 history.jsonl
 shell_snapshots/
 tmp/
+__pycache__/
+*.pyc
+notify.log
+notify.py
+config.json
