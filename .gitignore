@@ -4,3 +4,5 @@ sessions/
 archived_sessions/
 auth.json
 history.jsonl
+shell_snapshots/
+tmp/
