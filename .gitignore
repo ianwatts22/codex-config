@@ -11,3 +11,11 @@ __pycache__/
 notify.log
 notify.py
 config.json
+.codex-global-state.json
+.personality_migration
+models_cache.json
+rules/
+sqlite/
+vendor_imports/
+worktrees/
+automations/**/memory.md
