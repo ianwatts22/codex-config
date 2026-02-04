@@ -25,6 +25,7 @@ steer = true
 collab = true
 
 collaboration_modes = true
+apps = true
 [projects."/Users/ianwatts/.config/ruler"]
 trust_level = "trusted"
 
