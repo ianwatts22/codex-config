@@ -1,0 +1,9 @@
+version = 1
+id = "status-update"
+name = "Git Status"
+prompt = "What are the outstanding branches, PRs, uncommitted code, unpushed commits? Provide a concise, comprehensible description for each of them"
+status = "ACTIVE"
+rrule = "RRULE:FREQ=WEEKLY;BYHOUR=9;BYMINUTE=0;BYDAY=SU,MO,TU,WE,TH,FR,SA"
+cwds = ["/Users/ianwatts/code_projects/social-glass"]
+created_at = 1770189558362
+updated_at = 1770199465312

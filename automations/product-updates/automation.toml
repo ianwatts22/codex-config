@@ -1,0 +1,9 @@
+version = 1
+id = "product-updates"
+name = "Library SOTA"
+prompt = "I need you to see which packages/libraries/APIs, if any, are outdated (not on the latest version) so we can maintain SOTA capabilities and proper leverage of our tools. We are looking for meaningful gaps (new capabilities, breaking changes, or relevant deprecations), specifically on the high-impact, usually service-proivder libraries that are oft-shifting.\n\nWhere it seems there may be meaningful change, research thoroughly (changelogs, press releases, etc.) to determine what the particular changes were. Then examine how they'd be relevant to our code and if they may be able to fix lingering issues."
+status = "ACTIVE"
+rrule = "RRULE:FREQ=WEEKLY;BYHOUR=9;BYMINUTE=0;BYDAY=MO"
+cwds = ["/Users/ianwatts/code_projects/social-glass"]
+created_at = 1770199330244
+updated_at = 1770232255599

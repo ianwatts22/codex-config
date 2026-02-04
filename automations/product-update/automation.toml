@@ -1,0 +1,9 @@
+version = 1
+id = "product-update"
+name = "Product Update"
+prompt = "[$product-update](/Users/ianwatts/code_projects/social-glass/.agents/skills/product-update/SKILL.md)"
+status = "PAUSED"
+rrule = "RRULE:FREQ=WEEKLY;BYHOUR=9;BYMINUTE=0;BYDAY=SU,MO,TU,WE,TH,FR,SA"
+cwds = ["/Users/ianwatts/code_projects/social-glass"]
+created_at = 1770158023215
+updated_at = 1770199532142
