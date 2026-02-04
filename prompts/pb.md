@@ -1,1 +1,0 @@
-I'm getting build errors. `tmux attach -t build`, fix the errors, and build/fix until it's resolved.

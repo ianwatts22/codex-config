@@ -1,1 +1,0 @@
-Now that you built this, what would you do different? Where can we simplify the implementation? Any ways to better integrate with our codebase? Did we delete the accumulated vestigial code from the process? 
