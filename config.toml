@@ -1,9 +1,12 @@
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
-model_reasoning_summary = "detailed"
-tool_output_token_limit = 5_000
-model = "gpt-5.2-codex"
-model_reasoning_effort = "medium"
+# tool_output_token_limit = 5_000
+model = "gpt-5.2"
+model_reasoning_effort = "high"
+suppress_unstable_features_warning = true
+review_model = "gpt-5.2-codex"
+web_search = "live"
+personality = "pragmatic"
 
 [default]
 model = "gpt-5.2-codex"
@@ -16,8 +19,12 @@ approval_policy = "never"
 
 [features]
 rmcp_client = true
-web_search_request = true
+unified_exec = true
+shell_snapshot = true
+steer = true
+collab = true
 
+collaboration_modes = true
 [projects."/Users/ianwatts/.config/ruler"]
 trust_level = "trusted"
 
@@ -36,20 +43,25 @@ trust_level = "trusted"
 [projects."/Users/ianwatts/code_projects/ambassco-website"]
 trust_level = "trusted"
 
-[mcp_servers.morph-mcp]
-command = "npx"
-args = [ "-y", "@morphllm/morphmcp" ]
-
-  [mcp_servers.morph-mcp.env]
-  ENABLED_TOOLS = "warpgrep_codebase_search"
-
 [mcp_servers.RepoPrompt]
 command = "/Users/ianwatts/RepoPrompt/repoprompt_cli"
-args = [ ]
 enabled = false
-tool_timeout_sec = 1_000
+tool_timeout_sec = 1000.0
+
+[mcp_servers.morph-mcp]
+command = "npx"
+args = ["-y", "@morphllm/morphmcp"]
+
+[mcp_servers.morph-mcp.env]
+ENABLED_TOOLS = "edit_file,warpgrep_codebase_search"
+
+[mcp_servers.openaiDeveloperDocs]
+url = "https://developers.openai.com/mcp"
 
 [notice]
 hide_full_access_warning = true
 hide_gpt5_1_migration_prompt = true
 "hide_gpt-5.1-codex-max_migration_prompt" = true
+
+  [notice.model_migrations]
+  "gpt-5.2" = "gpt-5.2-codex"
